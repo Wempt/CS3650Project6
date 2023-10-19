@@ -65,4 +65,14 @@ public class Code {
         this.jumpmnemonics.put("JLE","110");
         this.jumpmnemonics.put("JMP","111");
     }
+
+    public String dest(String mnemonic) {
+        return this.destmnemonics.get(mnemonic);
+    }
+    public Sting comp(String mnemonic) {
+        return this.compmnemonics.get(mnemonic);
+    }
+    public String jump(String mnemonic) {
+        return this.jumpmnemonics.get(mnemonic);
+    }
 }
