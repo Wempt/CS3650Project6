@@ -10,9 +10,15 @@ public class Parser {
     private String currentLine;
 
     public Parser(File file) {
-        this.asm = file;
-        this.reader = new Scanner(this.asm);
-        this.currentLine = null;
+        try {
+            this.asm = file;
+            this.reader = new Scanner(this.asm);
+            this.currentLine = null;
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.print("File was not found\n");
+        }
     }
     
     private boolean isComment(String line) {
