@@ -31,7 +31,7 @@ public class Parser {
     public String advance() {
         if (hasMoreCommands()) {
             this.currentLine = this.reader.nextLine();
-            if(isComment(currentLine)) {
+            if(isComment(currentLine) || this.currentLine.isBlank()) {
                 return advance();
             }
             else {
