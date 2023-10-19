@@ -1,0 +1,5 @@
+0;JMP
+// nope
+M=d
+@hi
+(hi)
