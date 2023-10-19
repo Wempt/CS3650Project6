@@ -34,11 +34,26 @@ public class Assembler {
             e.printStackTrace();
         }
     }
+
+    private static void addLabels(SymbolTable symbolTable, File infile) {
+        Parser parser = new Parser(infile);
+        while(parser.hasMoreCommands()) {
+            parser.advance();
+            if (parser.commandType().equals(CommandType.L_COMMAND)) {
+                String symbol = parser.symbol();
+                symbolTable.addEntry(symbol, symbolTable.getProgAddress());
+            }
+            symbolTable.incProgAddress();
+        }
+    }
+
     private static void parse(File infile, File outfile) throws IOException{
         Parser parser = new Parser(infile);
         Code decode = new Code();
         FileWriter fWriter = new FileWriter(outfile);
         BufferedWriter writer = new BufferedWriter(fWriter);
+        SymbolTable symbolTable = new SymbolTable();
+        addLabels(symbolTable, infile);
         
         while(parser.hasMoreCommands()) {
             parser.advance();
@@ -46,8 +61,19 @@ public class Assembler {
             String instruction = null;
             if (cType.equals(CommandType.A_COMMAND)) {
                 String symbol = parser.symbol();
-                String binary = Integer.toBinaryString(Integer.parseInt(symbol));
+                String binary = null;
+                if (!Character.isDigit(symbol.charAt(0))) {
+                    if (!symbolTable.contains(symbol)) {
+                        symbolTable.addEntry(symbol, symbolTable.getDataAddress());
+                        symbolTable.incDataAddress();
+                    }
+                    binary = Integer.toBinaryString(symbolTable.getAddress(symbol));
+                }
+                else {
+                    binary = Integer.toBinaryString(Integer.parseInt(symbol));
+                }
                 instruction = String.format("%16s",binary).replace(" ", "0");
+
             }
             else if (cType.equals(CommandType.C_COMMAND)) {
                 instruction = "111" + decode.comp(parser.comp()) + decode.dest(parser.dest()) + decode.jump(parser.jump());
