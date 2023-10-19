@@ -68,7 +68,7 @@ public class Parser {
         }
     }
     public String dest() {
-        String line = this.currentLine;
+        String line = this.currentLine.trim();
         int index = line.indexOf("=");
         if(index == -1) {
             return null;
@@ -78,7 +78,7 @@ public class Parser {
         }
     }
     public String comp() {
-        String line = this.currentLine;
+        String line = this.currentLine.trim();
         int destIndex = line.indexOf("=");
         if (destIndex != -1) {
             return line.substring(destIndex+1);
@@ -92,7 +92,7 @@ public class Parser {
         }
     }
     public String jump() {
-        String line = this.currentLine;
+        String line = this.currentLine.trim();
         int jumpIndex = line.indexOf(";");
         if(jumpIndex == -1) {
             return null;
