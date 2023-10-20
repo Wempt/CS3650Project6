@@ -22,28 +22,28 @@ public class Parser {
     }
     
     private boolean isComment(String line) {
-        return line.trim().startsWith("//");
+        return line.startsWith("//");
+    }
+    private String removeComment(String line) {
+        return line.substring(0, line.indexOf("//")).trim();
     }
 
     public boolean hasMoreCommands() {
         return this.reader.hasNextLine();
     }
-    public String advance() {
+    public void advance() {
         if (hasMoreCommands()) {
-            this.currentLine = this.reader.nextLine();
+            this.currentLine = this.reader.nextLine().trim();
             if(isComment(currentLine) || this.currentLine.isBlank()) {
-                return advance();
+                advance();
             }
-            else {
-                return this.currentLine;
+            else if(!(this.currentLine.indexOf("//") == -1)) {
+                this.currentLine = removeComment(currentLine);
             }
-        }
-        else {
-            return "No Commands Left";
         }
     }
     public CommandType commandType() {
-        String line = this.currentLine.trim();
+        String line = this.currentLine;
         if(line.startsWith("(") && line.endsWith(")")) {
             return CommandType.L_COMMAND;
         }
@@ -55,7 +55,7 @@ public class Parser {
         }
     }
     public String symbol() {
-        String line = this.currentLine.trim();
+        String line = this.currentLine;
 
         if(commandType().equals(CommandType.L_COMMAND)){
             return line.substring(1, line.length()-1);
@@ -68,7 +68,7 @@ public class Parser {
         }
     }
     public String dest() {
-        String line = this.currentLine.trim();
+        String line = this.currentLine;
         int index = line.indexOf("=");
         if(index == -1) {
             return null;
@@ -78,7 +78,7 @@ public class Parser {
         }
     }
     public String comp() {
-        String line = this.currentLine.trim();
+        String line = this.currentLine;
         int destIndex = line.indexOf("=");
         if (destIndex != -1) {
             return line.substring(destIndex+1);
@@ -92,7 +92,7 @@ public class Parser {
         }
     }
     public String jump() {
-        String line = this.currentLine.trim();
+        String line = this.currentLine;
         int jumpIndex = line.indexOf(";");
         if(jumpIndex == -1) {
             return null;
