@@ -12,7 +12,7 @@ public class Assembler {
             System.exit(1);
         }
         File infile = new File(args[0].trim());
-        // File infile = new File("rect/RectL.asm");
+        // File infile = new File("rect/Rect.asm");
         if (!infile.exists()) {
             System.out.println("File not found");
             System.exit(1);
@@ -43,7 +43,9 @@ public class Assembler {
                 String symbol = parser.symbol();
                 symbolTable.addEntry(symbol, symbolTable.getProgAddress());
             }
-            symbolTable.incProgAddress();
+            else {
+                symbolTable.incProgAddress();
+            }
         }
     }
 
@@ -80,7 +82,6 @@ public class Assembler {
             }
             if (!cType.equals(CommandType.L_COMMAND)) {
                 //write to file
-                System.out.println(instruction);
                 writer.append(instruction);
                 writer.newLine();
             }
