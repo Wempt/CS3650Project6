@@ -67,12 +67,21 @@ public class Code {
     }
 
     public String dest(String mnemonic) {
+        if (mnemonic == null || mnemonic.isEmpty()) {
+		    mnemonic = "NULL";
+		}
         return this.destmnemonics.get(mnemonic);
     }
-    public Sting comp(String mnemonic) {
+    public String comp(String mnemonic) {
+        if (mnemonic == null || mnemonic.isEmpty()) {
+			mnemonic = "NULL";
+		}
         return this.compmnemonics.get(mnemonic);
     }
     public String jump(String mnemonic) {
+        if (mnemonic == null || mnemonic.isEmpty()) {
+			mnemonic = "NULL";
+		}
         return this.jumpmnemonics.get(mnemonic);
     }
 }
