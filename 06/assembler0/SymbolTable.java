@@ -43,7 +43,7 @@ public class SymbolTable {
     }
 
     public boolean contains(String symbol) {
-        return this.symbolAddress.contains(symbol);
+        return this.symbolAddress.containsKey(symbol);
     }
 
     public int getAddress(String symbol) {
